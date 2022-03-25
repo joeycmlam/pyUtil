@@ -7,17 +7,20 @@ def main():
     try:
         # establishing the connection
         conn = psycopg2.connect(
-            database="postgres", user='postgres', password='dbadmin', host='127.0.0.1', port='5432'
+            database="mysys", user='postgres', password='dbadmin', host='127.0.0.1', port='5432'
         )
         # Creating a cursor object using the cursor() method
         cursor = conn.cursor()
 
         # Executing an MYSQL function using the execute() method
-        cursor.execute("select version()")
+        cursor.execute("select * from pflo_holding")
 
         # Fetch a single row using fetchone() method.
-        data = cursor.fetchone()
-        logging.info("Connection established to: {0}".format(data))
+        idx = 0
+        for row in cursor:
+            logging.info("[{0}]: {1}".format(idx, row))
+            idx += 1
+
     except Exception as ex:
         raise ex
     finally:
