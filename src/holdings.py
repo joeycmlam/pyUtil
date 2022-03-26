@@ -5,30 +5,22 @@ import dataSource
 def main():
     logging.info('main')
 
+    db = None
     try:
-        # establishing the connection
-        # conn = psycopg2.connect(
-        #     database="mysys", user='postgres', password='dbadmin', host='127.0.0.1', port='5432'
-        # )
-
-        db = dataSource()
-
-        db.connect()
-
-        cur = db.getData('select * from pflo_holding')
+        db = dataSource.dataSource()
+        db.getInstance().connect()
+        cur = db.getInstance().getData('select * from pflo_holding')
 
         # Fetch a single row using fetchone() method.
         idx = 0
-        for row in cur:
-            logging.info("[{0}]: {1}".format(idx, row))
+        for aRow in cur:
+            logging.info("[{0}]: {1}".format(idx, aRow))
             idx += 1
 
     except Exception as ex:
         raise ex
     finally:
-        # Closing the connection
-        # conn.close()
-        dataSource.dataSource.close()
+        db.close()
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format='%(asctime)s: %(message)s')
