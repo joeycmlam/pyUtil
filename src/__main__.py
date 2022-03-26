@@ -1,9 +1,9 @@
 import logging
-import holdings
+from holdings import holdings
 
 def main():
     a = holdings()
-    # a.holdings.getHolding()
+    a.getHolding()
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format='%(asctime)s: %(message)s')
