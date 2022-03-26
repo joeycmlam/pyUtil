@@ -1,15 +1,12 @@
 import psycopg2
 import constant
 import yaml
+from appConfig import appConfig
 
 class dataSource:
     __instance = None
     conn = None
-    database = None
-    host = None
-    port = None
-    user = None
-    password = None
+    config = None
 
     @staticmethod
     def getInstance():
@@ -24,24 +21,16 @@ class dataSource:
             raise Exception("This class is a singleton!")
         else:
             dataSource.__instance = self
+            self.config = appConfig()
 
 
-    def getConfig(self):
-        with open(constant.CONFIG_FILE, 'r') as yamlfile:
-            config = yaml.load(yamlfile, Loader=yaml.FullLoader)
-            self.host = config[constant.DATASOURCE][constant.HOST]
-            self.database = config[constant.DATASOURCE][constant.DATABASE]
-            self.port = config[constant.DATASOURCE][constant.PORT]
-            self.user = config[constant.DATASOURCE][constant.USER]
-            self.password = config[constant.DATASOURCE][constant.PASSWORD]
 
     def connect(self):
         # establishing the connection
-        self.getConfig()
         self.conn = psycopg2.connect(
-                        host=self.host, port=self.port,
-                        database=self.database,
-                        user=self.user,  password=self.password)
+                        host=self.config.host, port=self.config.port,
+                        database=self.config.database,
+                        user=self.config.user,  password=self.config.password)
 
     def getData(self, sql):
         # Creating a cursor object using the cursor() method
