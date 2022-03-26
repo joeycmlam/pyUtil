@@ -1,23 +1,25 @@
 import logging
 import psycopg2
+import dataSource
 
 def main():
     logging.info('main')
 
     try:
         # establishing the connection
-        conn = psycopg2.connect(
-            database="mysys", user='postgres', password='dbadmin', host='127.0.0.1', port='5432'
-        )
-        # Creating a cursor object using the cursor() method
-        cursor = conn.cursor()
+        # conn = psycopg2.connect(
+        #     database="mysys", user='postgres', password='dbadmin', host='127.0.0.1', port='5432'
+        # )
 
-        # Executing an MYSQL function using the execute() method
-        cursor.execute("select * from pflo_holding")
+        db = dataSource()
+
+        db.connect()
+
+        cur = db.getData('select * from pflo_holding')
 
         # Fetch a single row using fetchone() method.
         idx = 0
-        for row in cursor:
+        for row in cur:
             logging.info("[{0}]: {1}".format(idx, row))
             idx += 1
 
@@ -25,7 +27,8 @@ def main():
         raise ex
     finally:
         # Closing the connection
-        conn.close()
+        # conn.close()
+        dataSource.dataSource.close()
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format='%(asctime)s: %(message)s')
