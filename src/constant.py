@@ -1,4 +1,6 @@
-# Config File
+# File Config
+CONFIG_FILE = '../config/local.yaml'
+# Database Config File
 DATASOURCE='dataSource'
 HOST='host'
 DATABASE='database'

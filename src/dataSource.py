@@ -27,7 +27,7 @@ class dataSource:
 
 
     def getConfig(self):
-        with open('../config/local.yaml', 'r') as yamlfile:
+        with open(constant.CONFIG_FILE, 'r') as yamlfile:
             config = yaml.load(yamlfile, Loader=yaml.FullLoader)
             self.host = config[constant.DATASOURCE][constant.HOST]
             self.database = config[constant.DATASOURCE][constant.DATABASE]
